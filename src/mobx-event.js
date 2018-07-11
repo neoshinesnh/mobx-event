@@ -1,27 +1,26 @@
 const { observable, autorun, toJS } = require("mobx");
 const { EventEmitter } = require("events");
 
-const history = [];
-
 class MobxEvent extends EventEmitter {
     constructor(init) {
         super();
+        this._history = [];
         if (init) this.reset(init);
     }
     history() {
-        return history;
+        return this._history;
     }
     backTo(index) {
-        const current = history[index - 1] || history[0];
-        for (let i = history.length - 1; i >= index - 1; i -= 1) {
-            history.splice(i, 1);
+        const current = this._history[index] || this._history[0];
+        for (let i = this._history.length; i >= index; i -= 1) {
+            this._history.splice(i, 1);
         }
         Object.keys(current).forEach((k) => {
             this.state[k] = current[k];
         });
     }
-    rollback(times = 1) {
-      this.backTo(history.length - times);
+    rollback(times = 0) {
+      this.backTo(this._history.length - times);
     }
     getState() {
         return toJS(this.state);    
@@ -30,12 +29,12 @@ class MobxEvent extends EventEmitter {
         this.state = observable(obj || {});
 
         autorun(() => {
-            const prev = history[history.length - 1];
+            const prev = this._history[this._history.length - 1];
             const current = this.getState();
             this.emit('change', current );
 
             if (prev && current && JSON.stringify(current) === JSON.stringify(prev)) return false;
-            history.push(this.getState());
+            this._history.push(this.getState());
         });
     }
 }
