@@ -1,0 +1,26 @@
+import orderLine from '../../orderline'
+
+class {
+    onCreate() {
+        console.log('Created', this.id);
+    }
+    increment() {
+        orderLine.state.count += 1;
+    }
+    add() {
+        const value = this.getEl('input').value;
+        orderLine.state.fruits.push(value);
+    }
+    remove(fruit) {
+        const index = orderLine.state.fruits.indexOf(fruit);
+        orderLine.state.fruits.splice(index, 1);
+    }
+}
+
+h1 -- Side ${ input.fruits.length }
+ul if(input.fruits)
+    li for(fruit in input.fruits) 
+        span -- ${ fruit }
+        button on-click('remove', fruit) -- x
+input type="text" key='input'
+button type="button" on-click('add') -- ADD

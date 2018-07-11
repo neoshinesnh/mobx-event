@@ -1,0 +1,39 @@
+import orderLine from './orderline'
+
+class {
+    onMount() {
+       this.subscribeTo(orderLine).on('change', () => {
+           this.forceUpdate();
+       });    
+    }
+    backTo(index) {
+        orderLine.backTo(index);
+    }
+    rollback() {
+        orderLine.rollback();
+    }    
+    toggle() {
+        orderLine.state.active = !orderLine.state.active;
+    }
+}
+
+div 
+    div for(s in [0,1]) style={ width: '49%', float: 'left' } 
+        side1  ...orderLine.getState() if(orderLine.state.active)
+div style={ clear: 'both' }
+br
+br
+br
+div
+    h2 
+      -- History
+      button on-click('rollback')  -- rollback
+    ul
+        li for(item in orderLine.history() | status-var=loop) 
+            -- ${ loop.getIndex() } ) 
+            -- ${ JSON.stringify(item) } 
+            button on-click('backTo', loop.getIndex() + 1) if(!loop.isLast())  -- rollback
+            button on-click('backTo', loop.getIndex()) if(!loop.isFirst())  -- delete
+    
+    
+    
