@@ -1,4 +1,4 @@
-const { observable, autorun, toJS } = require("mobx");
+const { observable, autorun, toJS, observe } = require("mobx");
 const { EventEmitter } = require("events");
 
 class MobxEvent extends EventEmitter {
@@ -36,6 +36,14 @@ class MobxEvent extends EventEmitter {
             if (prev && current && JSON.stringify(current) === JSON.stringify(prev)) return false;
             this._history.push(this.getState());
         });
+
+        observe(this.state, (change) => {
+          if (change.hasOwnProperty('name') && change.hasOwnProperty('newValue') && change.newValue !== change.oldValue) {
+            this.emit(`change-${change.name}`, change.newValue);
+          }
+        });
+
+
     }
 }
 module.exports = MobxEvent;

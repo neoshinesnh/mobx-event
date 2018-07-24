@@ -1,6 +1,6 @@
 {
   "name": "mobx-event",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A event emitter mobx based",
   "main": "./src/mobx-event.js",
   "scripts": {

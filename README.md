@@ -6,13 +6,17 @@
 1 - Create a event instance
 ```js
 const MobxEvent = require('mobx-event');
-const CartEvent = new MobxEvent({ products:  [] });
+const CartEvent = new MobxEvent({ products: [], total: 0 });
 ```
 
 2 - Listen state changes
 ```js
+// get state changes
 CartEvent.on('change', newState => console.log(newState));
+// or only changed attribute:
+CartEvent.on('change-total', total => console.log(total));
 ```
+
 
 3 - Manipulate state 
 ```js
