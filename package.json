@@ -10,7 +10,7 @@
   "author": "Jesse Pinheiro <jessebpinheiro@hotmail.com>",
   "license": "ISC",
   "dependencies": {
-    "mobx": "^5.0.3"
+    "mobx": "^4.5.2"
   },
   "devDependencies": {
     "babel": "^6.23.0",
